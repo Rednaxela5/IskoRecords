@@ -4,8 +4,16 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="book_minimalism_worms_apple_74361_1366x768.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="book_minimalism_worms_apple_74361_1366x768.jpg" />
+  </ItemGroup>
 
 </Project>
