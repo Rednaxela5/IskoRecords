@@ -5,34 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IskoRecords"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="IskoRecords" FontFamily="Montserrat" Height="450" Width="800" ResizeMode="NoResize">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <!-- Side Panel Width -->
             <ColumnDefinition Width="9*"/>
-            <ColumnDefinition Width="91*"/>
             <!-- Main Content Width -->
         </Grid.ColumnDefinitions>
 
         <!-- Side Panel Background -->
-        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="434" Stroke="Black" VerticalAlignment="Center" Width="600" Fill="#FFF5C2C2" Grid.ColumnSpan="2"/>
-
+        <Rectangle Grid.Column="1" HorizontalAlignment="Center" Height="385" VerticalAlignment="Top" Width="600" Fill="#FFCCD4D9" Margin="0,49,0,0"/>
         <!-- Side Panel -->
-        <Grid Background="#2C3E50" Grid.Column="0">
+        <Grid Background="#0f2634" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                <Button x:Name="Search_Student" Content="Search Students" Height="40" Margin="10" Click="SearchStudent_Click"/>
-                <Button x:Name="Add_Student" Content="Add Students" Height="40" Margin="10" Click="AddStudent_Click"/>
+            <StackPanel Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0">
+                <Button x:Name="Add_Student" Content="Add Students" Height="40" Margin="0, 2" Click="AddStudent_Click" FontFamily="Montserrat Bold" Background="{x:Null}" Foreground="White" BorderBrush="#FF255D80" FontSize="13" />
+                <Button x:Name="Search_Student" Content="View Students" Height="40" Margin="0, 2" Click="SearchStudent_Click" FontFamily="Montserrat Bold" BorderBrush="#FF255D80" Foreground="White" Background="{x:Null}" FontSize="13"/>
+
                 <!-- Add more buttons as needed -->
             </StackPanel>
+            <Image Margin="42,17,140,0" Source="/iskorecords_logo.png" VerticalAlignment="Top" Height="19">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="0"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+
+
         </Grid>
 
         <!-- Main Content Frame -->
-        <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2"/>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="1" Margin="0,49,0,0"/>
+        <TextBlock x:Name="IskoRecords" HorizontalAlignment="Left" Margin="64,17,0,0" TextWrapping="Wrap" Text="IskoRecords" VerticalAlignment="Top" FontFamily="Montserrat medium" FontSize="15" Foreground="White"/>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Center" Height="49" VerticalAlignment="Top" Width="600" Fill="#FFC0C5C8"/>
+        <TextBlock x:Name="IskoRecords_Copy" HorizontalAlignment="Left" Margin="19,17,0,0" TextWrapping="Wrap" Text="System Administration" VerticalAlignment="Top" FontFamily="Montserrat Bold" FontSize="14" Foreground="#FF0F2634" Grid.Column="1" FontWeight="Bold"/>
+        <TextBlock x:Name="IskoRecords_Copy1" HorizontalAlignment="Left" Margin="416,17,0,0" TextWrapping="Wrap" Text="Alexander Porlares" VerticalAlignment="Top" FontFamily="Montserrat Bold" FontSize="14" Foreground="#FF0F2634" Grid.Column="1" FontWeight="Bold" Width="158"/>
     </Grid>
+
+
 </Window>

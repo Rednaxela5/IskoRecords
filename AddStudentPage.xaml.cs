@@ -21,5 +21,15 @@ namespace IskoRecords
         {
             InitializeComponent();
         }
+
+        private void student_id_entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void submit_btn_Copy_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

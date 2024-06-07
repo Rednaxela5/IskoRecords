@@ -28,5 +28,7 @@ namespace IskoRecords
         {
             MainFrame.Navigate(new SearchStudentPage());
         }
+
+
     }
 }
