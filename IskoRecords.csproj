@@ -9,15 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="book_minimalism_worms_apple_74361_1366x768.jpg" />
     <None Remove="Fonts\Poppins-Bold.ttf" />
     <None Remove="iskorecords_logo.png" />
+    <None Remove="meme.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="book_minimalism_worms_apple_74361_1366x768.jpg" />
     <Resource Include="Fonts\Poppins-Bold.ttf" />
     <Resource Include="iskorecords_logo.png" />
+    <Resource Include="meme.jpg" />
   </ItemGroup>
 
 </Project>
