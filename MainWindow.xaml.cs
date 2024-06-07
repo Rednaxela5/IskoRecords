@@ -26,7 +26,7 @@ namespace IskoRecords
 
         private void SearchStudent_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new SearchStudentPage());
+            MainFrame.Navigate(new ViewStudentPage());
         }
 
 

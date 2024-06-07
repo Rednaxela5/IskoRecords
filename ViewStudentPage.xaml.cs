@@ -2,39 +2,33 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IskoRecords
 {
-    public partial class SearchStudentPage : Page
+    public partial class ViewStudentPage : Page
     {
-        private const string filePath = "student_data.txt";
+        private const string filePath = "iskorecords.txt";
+        private List<Student> _students;
 
-        public SearchStudentPage()
+        public ViewStudentPage()
         {
             InitializeComponent();
-            LoadDataFromFile();
+            LoadDataFromFile(); // Call the method to load data when the page is initialized
         }
 
         private void LoadDataFromFile()
         {
+            var students = new List<Student>();
+
             if (File.Exists(filePath))
             {
                 List<string> lines = File.ReadAllLines(filePath).ToList();
                 foreach (string line in lines)
                 {
                     string[] parts = line.Split(',');
-                    student_table1.Items.Add(new Student
+                    students.Add(new Student
                     {
                         StudentID = parts[0],
                         FirstName = parts[1],
@@ -45,28 +39,45 @@ namespace IskoRecords
                     });
                 }
             }
+
+            _students = students; // Store the loaded data in the _students field
+            student_table1.ItemsSource = _students; // Set the ItemsSource of the DataGrid
         }
 
-        private void SaveDataToFile()
+        private void RefreshStudents()
         {
-            List<string> lines = new List<string>();
-            foreach (Student student in student_table1.Items)
+            LoadDataFromFile(); // Refresh the data by reloading from the file
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshStudents();
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (student_table1.SelectedItem != null)
             {
-                string line = $"{student.StudentID},{student.FirstName},{student.MiddleName},{student.LastName},{student.YearLevel},{student.Section}";
-                lines.Add(line);
+                Student selectedStudent = student_table1.SelectedItem as Student;
+                if (selectedStudent != null)
+                {
+                    NavigationService.Navigate(new EditandDeletePage(selectedStudent));
+                }
             }
-            File.WriteAllLines(filePath, lines);
+            else
+            {
+                MessageBox.Show("Please select a student to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void student_table1_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            // Handle edit and delete operations
-            SaveDataToFile();
+            // Add your event handling logic here
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Handle selection changed event
+            // No additional code needed for now
         }
     }
 

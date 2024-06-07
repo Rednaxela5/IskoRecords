@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="student_table"
     mc:Ignorable="av"
-    x:Class="IskoRecords.SearchStudentPage"
+    x:Class="IskoRecords.ViewStudentPage"
     Title="Search Student">
     <Grid Height="385" Width="600" Background="#FFCCD4D9">
         <Grid.RowDefinitions>
@@ -17,11 +17,11 @@
         <TextBlock x:Name="view_student_label" Text="View Students" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="15" Margin="32,19,0,0" FontFamily="Montserrat SemiBold" Foreground="#FF102737" FontWeight="Bold" Grid.Row="1"/>
         <TextBlock x:Name="viewstduent_des_label" Text="And Perform Operations" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="32,40,0,0" FontFamily="Montserrat" Foreground="#FF434343" Grid.Row="1" FontSize="10"/>
         <Rectangle x:Name="divider" HorizontalAlignment="Left" Height="1" Margin="32,60,0,0" Grid.Row="1" VerticalAlignment="Top" Width="518" Fill="#FF434343"/>
-        <Button x:Name="delete_btn" Content="Delete" HorizontalAlignment="Left" Margin="474,273,0,0" Grid.Row="1" FontFamily="Montserrat SemiBold" VerticalAlignment="Top" Height="32" Width="78" BorderBrush="{x:Null}" Background="#FFF3D1D1" Foreground="#FFB72F17" Click="Button_Click" Cursor="Hand"/>
-        <Button x:Name="edit_btn" Content="Edit" HorizontalAlignment="Left" Margin="393,273,0,0" Grid.Row="1" FontFamily="Montserrat SemiBold" VerticalAlignment="Top" Height="32" Width="69" BorderBrush="{x:Null}" Background="#FFD5DEE5" Foreground="#FF304674" Click="Button_Click" Cursor="Hand"/>
-        <DataGrid x:Name="student_table1" Grid.Row="1" av:ItemsSource="{av:SampleData ItemCount=10}" Margin="32,66,50,89" FontFamily="Montserrat" SelectionChanged="DataGrid_SelectionChanged" FontSize="11" BorderBrush="{x:Null}">
+        <Button x:Name="edit_btn" Content="Edit" HorizontalAlignment="Left" Margin="481,273,0,0" Grid.Row="1" FontFamily="Montserrat SemiBold" VerticalAlignment="Top" Height="32" Width="69" BorderBrush="{x:Null}" Background="#FFD5DEE5" Foreground="#FF304674" Click="EditButton_Click" Cursor="Hand"/>
+        <Button x:Name="refresh_btn" Content="Refresh" HorizontalAlignment="Left" Margin="392,273,0,0" Grid.Row="1" FontFamily="Montserrat SemiBold" VerticalAlignment="Top" Height="32" Width="70" BorderBrush="{x:Null}" Background="#FFD5DEE5" Foreground="#FF304674" Click="RefreshButton_Click" Cursor="Hand"/>
+        <DataGrid x:Name="student_table1" Grid.Row="1" av:ItemsSource="{av:SampleData ItemCount=10}" Margin="32,66,50,89" FontFamily="Montserrat" SelectionChanged="DataGrid_SelectionChanged" FontSize="11" BorderBrush="{x:Null}" AutoGenerateColumns="False" IsReadOnly="False" CellEditEnding="student_table1_CellEditEnding">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Student ID" Binding="{Binding StudentID}" Width="80"/>
+                <DataGridTextColumn Header="Student ID" Binding="{Binding StudentID}" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="100"/>
                 <DataGridTextColumn Header="Middle Name" Binding="{Binding MiddleName}" Width="100"/>
                 <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Width="100"/>

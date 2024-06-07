@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,14 +31,14 @@ namespace IskoRecords
 
         private void LoadStudents()
         {
-            _students = LoadFromFile(reader, GetReader());
+            _students = LoadFromFile();
         }
 
         private void SaveStudents()
         {
             SaveToFile(_students);
-           
         }
+
         private void student_id_entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Ensure student_id_entry contains only numbers
@@ -76,7 +75,6 @@ namespace IskoRecords
             string YearLevel = (year_combo.SelectedItem as ComboBoxItem)?.Content.ToString();
             string Section = (section_combo.SelectedItem as ComboBoxItem)?.Content.ToString();
 
-
             // Validate inputs
             if (string.IsNullOrWhiteSpace(StudentId) || !int.TryParse(StudentId, out int studentId))
             {
@@ -106,7 +104,6 @@ namespace IskoRecords
                 YearLevel = YearLevel,
                 Section = Section
             };
-
 
             // Show confirmation dialog
             MessageBoxResult result = MessageBox.Show("Do you want to save this student data?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -148,12 +145,7 @@ namespace IskoRecords
             }
         }
 
-        private static StreamReader GetReader()
-        {
-            return reader;
-        }
-
-        private static List<Student> LoadFromFile(StreamReader reader, StreamReader reader)
+        private static List<Student> LoadFromFile()
         {
             var students = new List<Student>();
             if (File.Exists(FilePath))
@@ -180,7 +172,7 @@ namespace IskoRecords
                     }
                 }
             }
-            return students; // This line was missing
+            return students;
         }
 
         private void ClearForm()
