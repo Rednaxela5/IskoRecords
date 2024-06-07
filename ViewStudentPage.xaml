@@ -18,7 +18,7 @@
         <TextBlock x:Name="viewstduent_des_label" Text="And Perform Operations" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="32,40,0,0" FontFamily="Montserrat" Foreground="#FF434343" Grid.Row="1" FontSize="10"/>
         <Rectangle x:Name="divider" HorizontalAlignment="Left" Height="1" Margin="32,60,0,0" Grid.Row="1" VerticalAlignment="Top" Width="518" Fill="#FF434343"/>
         <Button x:Name="edit_btn" Content="Edit" HorizontalAlignment="Left" Margin="481,273,0,0" Grid.Row="1" FontFamily="Montserrat SemiBold" VerticalAlignment="Top" Height="32" Width="69" BorderBrush="{x:Null}" Background="#FFD5DEE5" Foreground="#FF304674" Click="EditButton_Click" Cursor="Hand"/>
-        <Button x:Name="refresh_btn" Content="Refresh" HorizontalAlignment="Left" Margin="392,273,0,0" Grid.Row="1" FontFamily="Montserrat SemiBold" VerticalAlignment="Top" Height="32" Width="70" BorderBrush="{x:Null}" Background="#FFD5DEE5" Foreground="#FF304674" Click="RefreshButton_Click" Cursor="Hand"/>
+        <Button x:Name="refresh_btn" Content="Refresh" HorizontalAlignment="Left" Margin="392,273,0,0" Grid.Row="1" FontFamily="Montserrat SemiBold" VerticalAlignment="Top" Height="32" Width="70" BorderBrush="{x:Null}" Background="#FF9E9E9E" Foreground="White" Click="RefreshButton_Click" Cursor="Hand"/>
         <DataGrid x:Name="student_table1" Grid.Row="1" av:ItemsSource="{av:SampleData ItemCount=10}" Margin="32,66,50,89" FontFamily="Montserrat" SelectionChanged="DataGrid_SelectionChanged" FontSize="11" BorderBrush="{x:Null}" AutoGenerateColumns="False" IsReadOnly="False" CellEditEnding="student_table1_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Student ID" Binding="{Binding StudentID}" Width="80" IsReadOnly="True"/>
