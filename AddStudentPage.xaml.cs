@@ -17,6 +17,18 @@ namespace IskoRecords
 {
     public partial class AddStudentPage : Page
     {
+        public class Student
+        {
+            public string student_id { get; set; }
+            public string first_name { get; set; }
+            public string middle_name { get; set; }
+            public string last_name { get; set; }
+            public string year_level { get; set; }
+            public string section { get; set; }
+        }
+
+        private List<Student> _students;
+        private const string FilePath
         public AddStudentPage()
         {
             InitializeComponent();
@@ -27,7 +39,12 @@ namespace IskoRecords
 
         }
 
-        private void submit_btn_Copy_Click(object sender, RoutedEventArgs e)
+        private void submit_btn(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clear_btn(object sender, RoutedEventArgs e)
         {
 
         }
