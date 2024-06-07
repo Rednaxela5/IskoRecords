@@ -29,6 +29,9 @@ namespace IskoRecords
             MainFrame.Navigate(new ViewStudentPage());
         }
 
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        {
 
+        }
     }
 }

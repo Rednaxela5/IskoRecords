@@ -71,13 +71,12 @@ namespace IskoRecords
         }
         private void student_table1_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            // Add your event handling logic here
+    
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Handle selection changed event
-            // No additional code needed for now
+
         }
     }
 

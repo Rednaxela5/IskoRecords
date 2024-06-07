@@ -10,12 +10,10 @@
 
   <ItemGroup>
     <None Remove="iskorecords_logo.png" />
-    <None Remove="meme.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="iskorecords_logo.png" />
-    <Resource Include="meme.jpg" />
   </ItemGroup>
 
 </Project>
