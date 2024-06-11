@@ -13,7 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="iskorecords_logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="sql\" />
   </ItemGroup>
 
 </Project>
