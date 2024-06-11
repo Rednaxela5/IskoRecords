@@ -1,52 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
+using MySql.Data.MySqlClient;
 
 namespace IskoRecords
 {
     public partial class ViewStudentPage : Page
     {
-        private const string filePath = "iskorecords.txt";
-        private List<Student> _students;
+        private readonly string connectionString = "server=localhost;user=root;password=P@ssw0rd2023!;database=db_iskorecords;port=3306";
+        private readonly MySqlConnection mySqlConnection;
 
         public ViewStudentPage()
         {
             InitializeComponent();
-            LoadDataFromFile(); // Call the method to load data when the page is initialized
+            mySqlConnection = new MySqlConnection(connectionString);
+            DisplayIskoRecords();
         }
 
-        private void LoadDataFromFile()
+        private void DisplayIskoRecords()
         {
             var students = new List<Student>();
-
-            if (File.Exists(filePath))
+            try
             {
-                List<string> lines = File.ReadAllLines(filePath).ToList();
-                foreach (string line in lines)
+                mySqlConnection.Open();
+                string query = "SELECT * FROM tb_student";
+                using (MySqlCommand command = new MySqlCommand(query, mySqlConnection))
                 {
-                    string[] parts = line.Split(',');
-                    students.Add(new Student
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        StudentID = parts[0],
-                        FirstName = parts[1],
-                        MiddleName = parts[2],
-                        LastName = parts[3],
-                        YearLevel = int.Parse(parts[4]),
-                        Section = parts[5]
-                    });
+                        while (reader.Read())
+                        {
+                            students.Add(new Student
+                            {
+                                StudentID = reader["studentID"].ToString(),
+                                FirstName = reader["firstName"].ToString(),
+                                MiddleName = reader["middleName"].ToString(),
+                                LastName = reader["lastName"].ToString(),
+                                YearLevel = int.Parse(reader["yearLevel"].ToString()),
+                                Section = reader["section"].ToString()
+                            });
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while loading data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                mySqlConnection.Close();
+            }
 
-            _students = students; // Store the loaded data in the _students field
-            student_table1.ItemsSource = _students; // Set the ItemsSource of the DataGrid
+            student_table1.ItemsSource = students;
+        }
+
+        public class Student
+        {
+            public string? StudentID { get; set; }
+            public string? FirstName { get; set; }
+            public string? MiddleName { get; set; }
+            public string? LastName { get; set; }
+            public int YearLevel { get; set; }
+            public string? Section { get; set; }
         }
 
         private void RefreshStudents()
         {
-            LoadDataFromFile(); // Refresh the data by reloading from the file
+            DisplayIskoRecords(); // Refresh the data by reloading from the database
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -56,12 +79,19 @@ namespace IskoRecords
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (student_table1.SelectedItem != null)
+            if (student_table1.SelectedItem is Student selectedStudent)
             {
-                Student selectedStudent = student_table1.SelectedItem as Student;
-                if (selectedStudent != null)
+                try
                 {
-                    NavigationService.Navigate(new EditandDeletePage(selectedStudent));
+                    mySqlConnection.Open();
+
+                    EditandDeletePage editanddeletepage = new EditandDeletePage(selectedStudent, mySqlConnection);
+                    NavigationService.Navigated += NavigationService_selected;
+                    NavigationService.Navigate(editanddeletepage);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while editing the student: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -69,24 +99,25 @@ namespace IskoRecords
                 MessageBox.Show("Please select a student to edit.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        private void NavigationService_selected(object sender, NavigationEventArgs e)
+        {
+            mySqlConnection.Close();
+
+            if (NavigationService != null)
+            {
+                NavigationService.Navigated -= NavigationService_selected;
+            }
+        }
+
         private void student_table1_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-    
+            // Handle cell edit ending if needed
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            // Handle selection change if needed
         }
-    }
-
-    public class Student
-    {
-        public string StudentID { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public int YearLevel { get; set; }
-        public string Section { get; set; }
     }
 }

@@ -1,72 +1,116 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using static IskoRecords.AddStudentPage;
 
 namespace IskoRecords
 {
     public partial class EditandDeletePage : Page
     {
-        private Student _student;
-        private const string filePath = "iskorecords.txt";
+        private ViewStudentPage.Student _selectedStudent;
+        private MySqlConnection _connection;
 
-        public EditandDeletePage(Student student)
+        public EditandDeletePage(ViewStudentPage.Student selectedStudent, MySqlConnection connection)
         {
             InitializeComponent();
-            _student = student;
-            LoadStudentData();
+            _selectedStudent = selectedStudent;
+            _connection = connection;
+            DisplayIskoRecords();
         }
 
-        private void LoadStudentData()
+        private void DisplayIskoRecords()
         {
-            student_id_entry.Text = _student.StudentID;
-            firstname_entry.Text = _student.FirstName;
-            middlename_entry.Text = _student.MiddleName;
-            lastname_entry.Text = _student.LastName;
-            year_combo.Text = _student.YearLevel.ToString();
-            section_combo.Text = _student.Section;
+            student_id_entry.Text = _selectedStudent.StudentID;
+            firstname_entry.Text = _selectedStudent.FirstName;
+            middlename_entry.Text = _selectedStudent.MiddleName;
+            lastname_entry.Text = _selectedStudent.LastName;
+            year_combo.Text = _selectedStudent.YearLevel.ToString();
+            section_combo.Text = _selectedStudent.Section;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            _student.FirstName = firstname_entry.Text;
-            _student.MiddleName = middlename_entry.Text;
-            _student.LastName = lastname_entry.Text;
-            _student.YearLevel = int.Parse(year_combo.Text);
-            _student.Section = section_combo.Text;
+            // Variables for student data
+            string firstName = firstname_entry.Text;
+            string middleName = middlename_entry.Text;
+            string lastName = lastname_entry.Text;
 
-            List<string> lines = File.ReadAllLines(filePath).ToList();
-            for (int i = 0; i < lines.Count; i++)
+            if (!ValidateNameLength(firstName) || !ValidateNameLength(middleName) || !ValidateNameLength(lastName))
             {
-                string[] parts = lines[i].Split(',');
-                if (parts[0] == _student.StudentID)
-                {
-                    lines[i] = $"{_student.StudentID},{_student.FirstName},{_student.MiddleName},{_student.LastName},{_student.YearLevel},{_student.Section}";
-                    break;
-                }
+                MessageBox.Show("Please make sure names are less than or equal to 100 characters.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            File.WriteAllLines(filePath, lines);
-            MessageBox.Show("Student data saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            NavigationService.GoBack();
+
+            _connection.Open();
+
+            try
+            {
+                string query = "UPDATE tb_student SET firstName = @firstName, middleName = @middleName, lastName = @lastName, yearLevel = @yearLevel, section = @section WHERE studentID = @studentID";
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@firstName", firstName);
+                    command.Parameters.AddWithValue("@middleName", middleName);
+                    command.Parameters.AddWithValue("@lastName", lastName);
+                    command.Parameters.AddWithValue("@yearLevel", Convert.ToInt32(year_combo.Text));
+                    command.Parameters.AddWithValue("@section", section_combo.Text);
+                    command.Parameters.AddWithValue("@studentID", _selectedStudent.StudentID);
+                    command.ExecuteNonQuery();
+                }
+                MessageBox.Show("Student data updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while updating student data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                _connection.Close();
+            }   
+
         }
 
+
+
+        // Delete student data
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            List<string> lines = File.ReadAllLines(filePath).ToList();
-            lines.RemoveAll(line => line.StartsWith(_student.StudentID));
-            File.WriteAllLines(filePath, lines);
-            MessageBox.Show("Student data deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            NavigationService.GoBack();
+            _connection.Open();
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand("DELETE FROM tb_student WHERE studentID = @studentID", _connection) )
+                {
+                    command.Parameters.AddWithValue("@studentID", _selectedStudent.StudentID);
+                    command.ExecuteNonQuery();
+                }
+                MessageBox.Show("Student data deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while deleting student data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                _connection.Close();
+            }
         }
+
 
         private void find_btn_clicked(object sender, RoutedEventArgs e)
         {
             // Implement find functionality if needed
         }
 
+        private bool ValidateNameLength(string name)
+        {
+            return !string.IsNullOrEmpty(name) && name.Length <= 100;
+        }
         private void clear_btn_clicked(object sender, RoutedEventArgs e)
         {
             // Clear all textboxes

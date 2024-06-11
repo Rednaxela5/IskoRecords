@@ -2,10 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Windows.Navigation;
 
 namespace IskoRecords
 {
@@ -15,7 +12,7 @@ namespace IskoRecords
 
         public class Student
         {
-            public int StudentId { get; set; }
+            public int StudentID { get; set; }
             public string FirstName { get; set; }
             public string MiddleName { get; set; }
             public string LastName { get; set; }
@@ -28,6 +25,7 @@ namespace IskoRecords
             InitializeComponent();
         }
 
+        // Event handlers for Student ID
         private void student_id_entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -42,6 +40,7 @@ namespace IskoRecords
             }
         }
 
+        // Event handlers for Name Entry
         private void name_entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -52,6 +51,8 @@ namespace IskoRecords
             }
         }
 
+
+        // Event handlers for Submit and Clear buttons
         private void submit_btn_clicked(object sender, RoutedEventArgs e)
         {
             string StudentId = student_id_entry.Text;
@@ -81,7 +82,7 @@ namespace IskoRecords
 
             Student newStudent = new Student
             {
-                StudentId = int.Parse(StudentId),
+                StudentID = int.Parse(StudentId),
                 FirstName = FirstName,
                 MiddleName = MiddleName,
                 LastName = LastName,
@@ -97,9 +98,9 @@ namespace IskoRecords
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
                         conn.Open();
-                        string query = "INSERT INTO tb_student (studentNo, firstName, middleName, lastName, yearLevel, section) VALUES (@studentNo, @firstName, @middleName, @lastName, @yearLevel, @section)";
+                        string query = "INSERT INTO tb_student (studentID, firstName, middleName, lastName, yearLevel, section) VALUES (@studentID, @firstName, @middleName, @lastName, @yearLevel, @section)";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
-                        cmd.Parameters.AddWithValue("@studentNo", newStudent.StudentId);
+                        cmd.Parameters.AddWithValue("@studentID", newStudent.StudentID);
                         cmd.Parameters.AddWithValue("@firstName", newStudent.FirstName);
                         cmd.Parameters.AddWithValue("@middleName", newStudent.MiddleName);
                         cmd.Parameters.AddWithValue("@lastName", newStudent.LastName);
